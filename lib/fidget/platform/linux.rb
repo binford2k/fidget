@@ -28,6 +28,8 @@ class Fidget::Platform
   def self.munge(*options)
     options.flatten!
     options.compact!
+    options = [:display] if options.empty?
+    options = [:display, :blanking] if options == [:all]
     options.each do |opt|
       STDERR.puts "Fidget: option {opt} is not supported on Linux" unless [:display, :blanking].include? opt
     end
@@ -37,7 +39,7 @@ class Fidget::Platform
 
   def self.root_win
     ids = `xwininfo -root`.each_line.collect do |line|
-      next unless line =~ /Windows id: (0x\d+)/
+      next unless line =~ /Window id: (0x\d+)/
       $1
     end.compact
     raise "Parsing xwininfo failed" unless ids.size == 1
