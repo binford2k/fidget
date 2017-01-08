@@ -22,6 +22,7 @@ Additional OS X options:
 
 Additional Windows options:
   * 'away' enables a low-power, but not sleeping, mode on Windows.
+  * `simulate` will simulate a user keyboard action every few seconds.
 
 Additional Linux options:
   * 'blanking' disables terminal blanking on Linux.
@@ -35,8 +36,13 @@ command, then Fidget will prevent sleeping until you press Ctrl-C to terminate.
         options = arg.split(',').map{ |e| e.to_sym }
     end
 
-    opts.on("-d", "--debug", "Display or log debugging messages") do
+    opts.on("-d", "--debug", "Display debugging messages") do
         loglevel = Logger::DEBUG
+    end
+
+    opts.on("-v", "--version", "Display the version of Fidget") do
+        puts Fidget::VERSION
+        exit(0)
     end
 
     opts.separator('')
@@ -64,5 +70,5 @@ begin
     sleep
   end
 rescue Interrupt => e
-  puts "Normal power management resumed."
+  puts "\nNormal power management resumed."
 end

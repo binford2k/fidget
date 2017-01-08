@@ -64,6 +64,7 @@ class Fidget::Platform
         dbus_screensaver.Inhibit(root_win, 'Administratively disabled')
       rescue => e
         STDERR.puts 'Fidget: DBus action failed.'
+        STDERR.puts e.message
         STDERR.puts e.backtrace.join "\n"
       end
     end

@@ -1,4 +1,6 @@
 class Fidget
+  require 'fidget/version'
+
   case Gem::Platform.local.os
   when /darwin/
     require 'fidget/platform/darwin'
