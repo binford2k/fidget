@@ -20,6 +20,7 @@ Additional OS X options:
 Additional Windows options:
 
   * `away` enables a low-power, but not sleeping, mode on Windows.
+  * `simulate` will simulate a user keyboard action every few seconds.
 
 Additional Linux options:
 
