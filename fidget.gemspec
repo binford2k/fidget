@@ -18,7 +18,8 @@ Gem::Specification.new do |s|
   s.files            += Dir.glob("lib/**/*")
   s.files            += Dir.glob("bin/**/*")
 
-  s.add_dependency "ruby-dbus"
+  # Add platform specific dependencies by abusing the extension system.
+  s.extensions = 'ext/mkrf_conf.rb'
 
   s.description       = <<-desc
   Fidget was inspired by the OS X commandline `caffeinate` tool, which in turn
@@ -30,5 +31,6 @@ Gem::Specification.new do |s|
     * Linux with xdg-screensaver (Xorg)
     * Windows
   desc
+
 
 end
