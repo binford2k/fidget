@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
   s.files            += Dir.glob("lib/**/*")
   s.files            += Dir.glob("bin/**/*")
 
+  s.add_dependency "ruby-dbus"
+
   s.description       = <<-desc
   Fidget was inspired by the OS X commandline `caffeinate` tool, which in turn
   was inspired by the Caffeine menubar tool. However, this tool is cross platform

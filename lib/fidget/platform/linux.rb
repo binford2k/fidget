@@ -1,4 +1,6 @@
 class Fidget::Platform
+  require "dbus"
+
   def self.current_process(options)
     options = munge(options)
     suspend(options)
@@ -35,7 +37,7 @@ class Fidget::Platform
     end
     options
   end
-  #private_class_method :munge
+  private_class_method :munge
 
   def self.root_win
     ids = `xwininfo -root`.each_line.collect do |line|
@@ -45,12 +47,25 @@ class Fidget::Platform
     raise "Parsing xwininfo failed" unless ids.size == 1
     ids.first
   end
-  #private_class_method :root_win
+  private_class_method :root_win
 
   def self.suspend(options)
     if options.include? :display
+      # I'm sure that if we tried, we could find yet another way to do this
       system("xdg-screensaver suspend #{root_win}")
+      system('xset s off')
+      system('xset s noblank')
       system('xset -dpms')
+
+      # xdg-screensaver doesn't actually seem to work, but making DBus calls ourself does.
+      # This is possibly because the inhibit expires when the dbus-session command terminates
+      # I don't know if this will work in other distros though. Yay for consistency. *\o/*
+      begin
+        dbus_screensaver.Inhibit(root_win, 'Administratively disabled')
+      rescue => e
+        STDERR.puts 'Fidget: DBus action failed.'
+        STDERR.puts e.backtrace.join "\n"
+      end
     end
 
     if options.include? :blanking
@@ -63,7 +78,11 @@ class Fidget::Platform
   def self.resume(options)
     if options.include? :display
       system("xdg-screensaver resume #{root_win}")
-      system('xset dpms')
+      system('xset +dpms')
+      system('xset s on')
+
+      # if we have a cookie, we can trust that DBus works
+      dbus_screensaver.Uninhibit(@@cookie) if @@cookie
     end
 
     if options.include? :blanking
@@ -71,5 +90,14 @@ class Fidget::Platform
     end
   end
   private_class_method :resume
+
+  def self.dbus_screensaver
+    session = DBus.session_bus
+    service = session['org.freedesktop.ScreenSaver']
+    object  = service['/ScreenSaver']
+    object.introspect
+    object['org.freedesktop.ScreenSaver']
+  end
+  private_class_method :dbus_screensaver
 
 end
