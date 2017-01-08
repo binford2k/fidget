@@ -1,0 +1,68 @@
+#! /usr/bin/env ruby
+
+require 'rubygems'
+require 'optparse'
+require 'fidget'
+
+options  = []
+optparse = OptionParser.new { |opts|
+    opts.banner = "Usage : fidget [-o <options>] [command]
+
+Cross platform utility to prevent your system from sleeping.
+
+Sleep options may very between platforms. Each platform will include at least
+the following core options:
+  * 'display' will prevent the display from sleeping.
+  * 'sleep' prevent the system from sleeping.
+  * 'all' to declare all known options.
+
+Additional OS X options:
+  * 'idle' will prevent the system from idle sleeping.
+  * 'disk' will prevent the disk from sleeping.
+
+Additional Windows options:
+  * 'away' enables a low-power, but not sleeping, mode on Windows.
+
+Additional Linux options:
+  * 'blanking' disables terminal blanking on Linux.
+
+If you pass the a command, then Fidget will execute that command and prevent
+the system from sleeping until that command terminates. If you do not provide a
+command, then Fidget will prevent sleeping until you press Ctrl-C to terminate.
+
+"
+    opts.on("-o OPTIONS", "--options OPTIONS", "Comma separated list of sleep options.") do |arg|
+        options = arg.split(',').map{ |e| e.to_sym }
+    end
+
+    opts.on("-d", "--debug", "Display or log debugging messages") do
+        loglevel = Logger::DEBUG
+    end
+
+    opts.separator('')
+
+    opts.on("-h", "--help", "Displays this help") do
+        puts
+        puts opts
+        puts
+        exit
+    end
+}
+optparse.parse!
+
+begin
+  if ARGV.size > 0
+    command = ARGV.join ' '
+
+    Fidget.prevent_sleep(options) do
+      system(command)
+    end
+  else
+    Fidget.current_process(options)
+    puts 'System has been prevented from sleeping.'
+    print '- Press Ctrl-C to resume normal power management.'
+    sleep
+  end
+rescue Interrupt => e
+  puts "Normal power management resumed."
+end
