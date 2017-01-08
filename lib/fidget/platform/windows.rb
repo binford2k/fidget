@@ -40,7 +40,7 @@ class Fidget::Platform
     options.flatten!
     options.compact!
     options = [:display, :sleep] if options.empty?
-    options = [:display, :sleep, :away] if options == [:all]
+    options = [:display, :sleep, :simulate, :away] if options == [:all]
 
     terms = {
       :display => ES_DISPLAY_REQUIRED,
@@ -57,7 +57,7 @@ class Fidget::Platform
     state = Win32API.new('kernel32','SetThreadExecutionState','L')
     state.call(ES_CONTINUOUS|mode)
 
-    if options.include? :display
+    if options.include? :simulate
       @@kb_poker = Thread.new do
         kb = Win32API.new('user32.dll', 'keybd_event', 'nnnn', 'v')
         loop do
