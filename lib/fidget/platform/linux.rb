@@ -61,7 +61,7 @@ class Fidget::Platform
       # This is possibly because the inhibit expires when the dbus-session command terminates
       # I don't know if this will work in other distros though. Yay for consistency. *\o/*
       begin
-        dbus_screensaver.Inhibit(root_win, 'Administratively disabled')
+        @@cookie = dbus_screensaver.Inhibit(root_win, 'Administratively disabled')
       rescue => e
         STDERR.puts 'Fidget: DBus action failed.'
         STDERR.puts e.message
