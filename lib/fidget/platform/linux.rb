@@ -22,7 +22,7 @@ class Fidget::Platform
     pid
   end
 
-  def self.allow_sleep(handle)
+  def self.allow_sleep
     options = munge(options)
     resume(options)
   end

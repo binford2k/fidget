@@ -33,8 +33,8 @@ class Fidget
     end
   end
 
-  def self.allow_sleep(handle)
-    Fidget::Platform.allow_sleep(handle)
+  def self.allow_sleep
+    Fidget::Platform.allow_sleep
   end
 
 end
