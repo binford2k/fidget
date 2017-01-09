@@ -1,12 +1,26 @@
 # Fidget
 A cross platform tool to prevent your computer from sleeping.
 
+
 ## Overview
 
-Usage : `fidget [-o <options>] [command]`
+Do you really dig `caffeinate` on OS X and wish that you could use it on
+Windows? Are you building something that supports multiple platforms and
+need the display to stay on without much fuss? Does the phrase "[Yes.
+`gnome-screensaver` has a simple to use DBus API for this](https://wiki.gnome.org/Projects/GnomeScreensaver/FrequentlyAskedQuestions#I.27m_developing_an_application_that_has_a_fullscreen_mode.__Is_there_a_way_that_I_can_disable_the_screensaver.3F)"
+make you irrationally angry?
 
-Sleep options may very between platforms. Each platform will include at least
-the following core options:
+If so, this might be the tool for you. Fidget provides both a commandline
+tool and a library to simply and easily inhibit sleep on all major platforms.
+
+
+## Usage
+
+    $ fidget [-o <options>] [command]
+
+Options should be passed as a comma-separated list.  Sleep options may very
+between platforms. Each platform will include at least the following core
+options:
 
   * `display` will prevent the display from sleeping.
   * `sleep` prevent the system from sleeping.
@@ -26,9 +40,27 @@ Additional Linux options:
 
   * `blanking` disables terminal blanking on Linux.
 
-If you pass the a command, then Fidget will execute that command and prevent
-the system from sleeping until that command terminates. If you do not provide a
+If you pass a command, then Fidget will execute that command and prevent the
+system from sleeping until that command terminates. If you do not provide a
 command, then Fidget will prevent sleeping until you press Ctrl-C to terminate.
+
+### Examples
+
+Simply keep the computer from sleeping until you press Ctrl-C
+
+    $ fidget
+    System has been prevented from sleeping.
+    - Press Ctrl-C to resume normal power management.
+
+Pass options and run a command
+
+    $ fidget -o sleep,idle make
+
+
+## Installation
+
+    $ gem install fidget
+
 
 ## Library Usage
 
@@ -45,7 +77,7 @@ or symbols.
 * `Fidget.current_process(options)`
     * Shortcut method to inhibit sleep during the execution of the current process.
 
-### Example usages:
+### Examples
 
 Default options, with a block:
 
@@ -100,7 +132,10 @@ Simply prevent the computer from sleeping while the current process is running:
 
 ## Limitations
 
-This is super early in development and has not yet been battle tested.
+This is super early in development and has not yet been battle tested. If you
+discover a platform it doesn't work on, or a use case that it should cover,
+please do [file an issue](https://github.com/binford2k/fidget/issues)
+
 
 ## Disclaimer
 
