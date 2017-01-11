@@ -27,6 +27,10 @@ class Fidget::Platform
     resume(options)
   end
 
+  def self.simulate
+    system('xset reset')
+  end
+
   def self.munge(*options)
     options.flatten!
     options.compact!

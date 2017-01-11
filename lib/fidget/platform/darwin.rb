@@ -29,6 +29,13 @@ class Fidget::Platform
     @@pids = nil
   end
 
+  def self.simulate
+    # osx needs accessibilty access to do this, along with a big scary prompt.
+    # But it's not really needed anyway. Caffeinate works really well.
+    # Should we want to at some point..., https://github.com/AXElements/AXElements
+  end
+
+
   def self.arguments(*options)
     options.flatten!
     options.compact!

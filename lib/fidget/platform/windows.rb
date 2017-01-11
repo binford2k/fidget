@@ -33,6 +33,13 @@ class Fidget::Platform
     set_state(nil)
   end
 
+  def self.simulate
+    # memoized so we don't keep loading the library every few seconds
+    @@kb ||= Win32API.new('user32.dll', 'keybd_event', 'IILL', 'V')
+    @@kb.call(KB_KEY_F24, 0, KB_EVENT_KEYPRESS, 0)
+    @@kb.call(KB_KEY_F24, 0, KB_EVENT_KEYUP, 0)
+  end
+
   # Set thread execution state, using information from
   # https://msdn.microsoft.com/en-us/library/aa373208(VS.85).aspx
   # http://stackoverflow.com/questions/4126136/stop-a-windows-7-pc-from-going-to-sleep-while-a-ruby-program-executes
@@ -57,20 +64,6 @@ class Fidget::Platform
     state = Win32API.new('kernel32','SetThreadExecutionState','L')
     state.call(ES_CONTINUOUS|mode)
 
-    if options.include? :simulate
-      @@kb_poker = Thread.new do
-        kb = Win32API.new('user32.dll', 'keybd_event', 'nnnn', 'v')
-        loop do
-          kb.call(KB_KEY_F24, 0, KB_EVENT_KEYPRESS, nil)
-          kb.call(KB_KEY_F24, 0, KB_EVENT_KEYUP, nil)
-          sleep 30
-        end
-      end
-    end
-
-    if options.nil?
-      Thread.kill @@kb_poker if @@kb_poker
-    end
   end
   private_class_method :set_state
 
