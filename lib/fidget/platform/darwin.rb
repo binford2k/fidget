@@ -39,7 +39,7 @@ class Fidget::Platform
   def self.arguments(*options)
     options.flatten!
     options.compact!
-    return '-u'    if option.empty?
+    return '-u'    if options.empty?
     return '-dism' if options == [:all]
 
     terms = {

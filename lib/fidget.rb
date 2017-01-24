@@ -20,14 +20,14 @@ class Fidget
     raise "Unknown platform: #{Gem::Platform.local.os}"
   end
 
-  def self.current_process(options = nil)
+  def self.current_process(*options)
     simulator(options)
     options.delete :simulate
 
     Fidget::Platform.current_process(options)
   end
 
-  def self.prevent_sleep(options = nil)
+  def self.prevent_sleep(*options)
     simulator(options)
     options.delete :simulate
 
@@ -46,9 +46,7 @@ class Fidget
     Thread.kill @@simulator if @@simulator
   end
 
-  def self.simulator(options)
-    options = Array(options)
-
+  def self.simulator(*options)
     # if :all or :simulate were passed, start up the action simulator
     unless (options & [:all, :simulate]).empty?
       @@simulator = Thread.new do
