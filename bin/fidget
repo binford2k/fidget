@@ -19,6 +19,8 @@ the following core options:
 Additional OS X options:
   * 'idle' will prevent the system from idle sleeping.
   * 'disk' will prevent the disk from sleeping.
+  * 'user' will assert that the user is active. This keeps the display
+           on and prevents idle sleep.
 
 Additional Windows options:
   * 'away' enables a low-power, but not sleeping, mode on Windows.
@@ -26,6 +28,11 @@ Additional Windows options:
 
 Additional Linux options:
   * 'blanking' disables terminal blanking on Linux.
+
+Default options for each platform:
+  * OS X: `user`
+  * Linux: `display`
+  * Windows: `display,sleep`
 
 If you pass the a command, then Fidget will execute that command and prevent
 the system from sleeping until that command terminates. If you do not provide a

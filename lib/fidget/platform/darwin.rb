@@ -39,6 +39,7 @@ class Fidget::Platform
   def self.arguments(*options)
     options.flatten!
     options.compact!
+    return '-u'    if option.empty?
     return '-dism' if options == [:all]
 
     terms = {
@@ -46,6 +47,7 @@ class Fidget::Platform
       :idle    => 'i',
       :disk    => 'm',
       :sleep   => 's',
+      :user    => 'u',
     }
     options.each do |opt|
       STDERR.puts "Fidget: option #{opt} is not supported on OS X" unless terms.include? opt

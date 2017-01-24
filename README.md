@@ -30,6 +30,8 @@ Additional OS X options:
 
   * `idle` will prevent the system from idle sleeping.
   * `disk` will prevent the disk from sleeping.
+  * 'user' will assert that the user is active. This keeps the display
+           on and prevents idle sleep.
 
 Additional Windows options:
 
@@ -39,6 +41,11 @@ Additional Windows options:
 Additional Linux options:
 
   * `blanking` disables terminal blanking on Linux.
+
+Default options for each platform:
+  * OS X: `user`
+  * Linux: `display`
+  * Windows: `display`,`sleep`
 
 If you pass a command, then Fidget will execute that command and prevent the
 system from sleeping until that command terminates. If you do not provide a
@@ -83,7 +90,7 @@ Default options, with a block:
 
     #! /usr/bin/env ruby
     require 'fidget'
-    
+
     Fidget.prevent_sleep do
       100.times do
         print '.'
@@ -109,12 +116,12 @@ No block, just calling methods:
     require 'fidget'
 
     Fidget.prevent_sleep(:display, :sleep)
-    
+
     100.times do
       print '.'
       sleep 1
     end
-    
+
     Fidget.allow_sleep
 
 Simply prevent the computer from sleeping while the current process is running:
@@ -123,12 +130,12 @@ Simply prevent the computer from sleeping while the current process is running:
     require 'fidget'
 
     Fidget.current_process
-    
+
     100.times do
       print '.'
       sleep 1
     end
-   
+
 
 ## Limitations
 
