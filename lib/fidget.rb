@@ -1,5 +1,6 @@
 class Fidget
   require 'fidget/version'
+  require 'fidget/logger'
 
   case Gem::Platform.local.os
   when /darwin/

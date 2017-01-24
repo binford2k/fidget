@@ -44,7 +44,7 @@ command, then Fidget will prevent sleeping until you press Ctrl-C to terminate.
     end
 
     opts.on("-d", "--debug", "Display debugging messages") do
-        loglevel = Logger::DEBUG
+        Fidget.debuglevel = Logger::DEBUG
     end
 
     opts.on("-v", "--version", "Display the version of Fidget") do

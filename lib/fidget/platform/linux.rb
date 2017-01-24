@@ -2,6 +2,7 @@ class Fidget::Platform
   require "dbus"
 
   def self.current_process(options)
+    return false unless required_binaries
     options = munge(options)
     suspend(options)
 
@@ -11,6 +12,7 @@ class Fidget::Platform
   end
 
   def self.prevent_sleep(options)
+    return false unless required_binaries
     options = munge(options)
     suspend(options)
 
@@ -23,11 +25,13 @@ class Fidget::Platform
   end
 
   def self.allow_sleep
+    return false unless required_binaries
     options = munge(options)
     resume(options)
   end
 
   def self.simulate
+    return false unless required_binaries('xset')
     system('xset reset')
   end
 
@@ -69,7 +73,7 @@ class Fidget::Platform
       rescue => e
         STDERR.puts 'Fidget: DBus action failed.'
         STDERR.puts e.message
-        STDERR.puts e.backtrace.join "\n"
+        STDERR.puts e.backtrace.first
       end
     end
 
@@ -105,4 +109,16 @@ class Fidget::Platform
   end
   private_class_method :dbus_screensaver
 
+  def self.required_binaries(*list)
+    list = ['xset', 'xdg-screensaver', 'xwininfo'] if list.empty?
+    found = true
+    list.each do |command|
+      unless system("which #{command} > /dev/null 2>&1")
+        found = false
+        Fidget.debug "Fidget: required binary (#{command}) not found."
+      end
+    end
+    found
+  end
+  private_class_method :required_binaries
 end
