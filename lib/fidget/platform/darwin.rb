@@ -36,7 +36,7 @@ class Fidget::Platform
   end
 
 
-  def self.arguments(*options)
+  def self.arguments(options)
     options.flatten!
     options.compact!
     return '-u'    if options.empty?

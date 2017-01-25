@@ -13,7 +13,7 @@ class Fidget
     require 'fidget/platform/windows'
 
   when 'java'
-    STDERR.puts 'When running under jRuby, we cannot reliably manage power settings.'
+    logger.error 'When running under jRuby, we cannot reliably manage power settings.'
     require 'fidget/platform/null'
 
   else
@@ -42,11 +42,11 @@ class Fidget
   end
 
   def self.allow_sleep
-    Fidget::Platform.allow_sleep
     Thread.kill @@simulator if @@simulator
+    Fidget::Platform.allow_sleep
   end
 
-  def self.simulator(*options)
+  def self.simulator(options)
     # if :all or :simulate were passed, start up the action simulator
     unless (options & [:all, :simulate]).empty?
       @@simulator = Thread.new do

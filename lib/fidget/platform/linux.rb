@@ -35,7 +35,7 @@ class Fidget::Platform
     system('xset reset')
   end
 
-  def self.munge(*options)
+  def self.munge(options)
     options.flatten!
     options.compact!
     options = [:display] if options.empty?

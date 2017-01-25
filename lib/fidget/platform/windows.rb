@@ -43,7 +43,7 @@ class Fidget::Platform
   # Set thread execution state, using information from
   # https://msdn.microsoft.com/en-us/library/aa373208(VS.85).aspx
   # http://stackoverflow.com/questions/4126136/stop-a-windows-7-pc-from-going-to-sleep-while-a-ruby-program-executes
-  def self.set_state(*options)
+  def self.set_state(options)
     options.flatten!
     options.compact!
     options = [:display, :sleep] if options.empty?
