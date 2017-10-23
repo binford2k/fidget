@@ -6,8 +6,8 @@ class Fidget
   when /darwin/
     require 'fidget/platform/darwin'
 
-  when /linux/
-    require 'fidget/platform/linux'
+  when /freebsd|linux/
+    require 'fidget/platform/posix'
 
   when /cygwin|mswin|mingw|bccwin|wince|emx/
     require 'fidget/platform/windows'
