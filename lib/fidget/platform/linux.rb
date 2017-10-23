@@ -1,5 +1,6 @@
 class Fidget::Platform
   require "dbus"
+  @@cookie = nil
 
   def self.current_process(options)
     return false unless required_binaries
@@ -69,7 +70,9 @@ class Fidget::Platform
       # This is possibly because the inhibit expires when the dbus-session command terminates
       # I don't know if this will work in other distros though. Yay for consistency. *\o/*
       begin
-        @@cookie = dbus_screensaver.Inhibit(root_win, 'Administratively disabled')
+        dbus_screensaver.Inhibit(root_win, 'Administratively disabled') do |res|
+          @@cookie = res
+        end
       rescue => e
         STDERR.puts 'Fidget: DBus action failed.'
         STDERR.puts e.message
