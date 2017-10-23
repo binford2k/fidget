@@ -49,7 +49,7 @@ class Fidget::Platform
 
   def self.root_win
     ids = `xwininfo -root`.each_line.collect do |line|
-      next unless line =~ /Window id: (0x\d+)/
+      next unless line =~ /Window id: (0x\h+)/
       $1
     end.compact
     raise "Parsing xwininfo failed" unless ids.size == 1
