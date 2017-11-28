@@ -20,8 +20,6 @@ class Fidget::Platform
       yield
       resume(options)
     end
-
-    pid
   end
 
   def self.allow_sleep
