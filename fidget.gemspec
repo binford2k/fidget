@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.files            += Dir.glob("lib/**/*")
   s.files            += Dir.glob("bin/**/*")
 
-  s.add_dependency    "ruby-dbus"
+  s.add_dependency    "ruby-dbus", "< 0.15.0"
 
   s.description       = <<-desc
   Fidget was inspired by the OS X commandline `caffeinate` tool, which in turn
